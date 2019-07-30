@@ -1,0 +1,26 @@
+{
+  "name": "cloudevents",
+  "version": "0.0.1",
+  "main": "./app.js",
+  "repository": "git@github.com:lencx/cloudevents.git",
+  "author": "lencx <cxin1314@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "dependencies": {
+    "cloudevents-sdk": "^0.2.3",
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-logger": "^3.2.1",
+    "koa-router": "^7.4.0",
+    "lodash": "^4.17.15",
+    "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  },
+  "engines": {
+    "node": ">=7.6"
+  }
+}
