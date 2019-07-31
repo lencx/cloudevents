@@ -18,6 +18,11 @@
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-optional-chaining": "^7.2.0",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/register": "^7.5.5",
     "nodemon": "^1.19.1"
   },
   "engines": {

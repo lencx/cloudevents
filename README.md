@@ -20,6 +20,7 @@ curl -X POST \
 http://localhost:8080/node/event
 ```
 
-## 规范
+## 🔮 Feature
 
-* `/app/format`中存放对应事件的数据处理逻辑，返回处理后的结果(文件名与事件类型或扩展参数一一对应)
+* proposal-optional-chaining
+* format data: `/app/format/*`
