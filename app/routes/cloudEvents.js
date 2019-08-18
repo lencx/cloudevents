@@ -1,9 +1,11 @@
-const Unmarshaller02 = require("cloudevents-sdk/http/unmarshaller/v02");
+// version: v03
+const cloudEvent = require("cloudevents-sdk/v03");
 const fetch = require('../utils/fetch');
 
-const unmarshaller = new Unmarshaller02();
+const unmarshaller = new cloudEvent.HTTPUnmarshaller();
 
 module.exports = (app, config) => app.post('/node/event', async (ctx, next) => {
+  console.log(`------------- ${new Date()} -------------`)
   // console.log(ctx.request);
   // console.log(JSON.stringify(ctx));
   const { request } = ctx;
@@ -16,11 +18,7 @@ module.exports = (app, config) => app.post('/node/event', async (ctx, next) => {
 
   await unmarshaller.unmarshall(request.body, request.header)
     .then(async cloudevent => {
-      console.log('=========== start =============');
-      console.info(config.api.event);
-      console.info('header: ', JSON.stringify(request.header));
-      console.info('cloudevent: ', JSON.stringify(cloudevent.format()));
-      console.log('=========== end =============');
+      console.info('[Cloudevent]:', JSON.stringify(cloudevent.format()));
       // console.log(JSON.stringify(cloudevent.format(), null, 2), request.header);
       const cloudEventData = cloudevent.format();
       const data = await fetch(config.api.event, {
@@ -39,15 +37,22 @@ module.exports = (app, config) => app.post('/node/event', async (ctx, next) => {
         _d = require(`../format/${filename}`)(data);
       } catch (e) {}
       ctx.body = _d;
+      await next();
     })
     .catch(err => {
-      // console.error('Error: ', err);
-      ctx.body = {
-        code: 20099,
-        message: err || 'Event format error',
+      console.error('[Error]:', err);
+      let errBody = {
+        code: 'CLOUD_EVENTS_ERROR',
+        ...err,
+      };
+      if (err.code === 'ECONNRESET') {
+        errBody['config'] = 'Please check the configuration file `/config/**/*.js`'
       }
+      ctx.body = errBody;
+    }).finally(() => {
+      console.info('[API]:', config.api.event);
+      console.info('[Header]:', JSON.stringify(request.header));
     });
-  await next();
 })
 
 /*

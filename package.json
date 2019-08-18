@@ -9,7 +9,7 @@
     "start": "nodemon app.js"
   },
   "dependencies": {
-    "cloudevents-sdk": "^0.2.3",
+    "cloudevents-sdk": "^0.3.0",
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",
     "koa-logger": "^3.2.1",
